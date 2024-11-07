@@ -1,2 +1,4 @@
-config/keys.js/
+config/keys.js
 node_modules/
+.log
+.env

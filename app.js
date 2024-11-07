@@ -4,10 +4,11 @@ const authRouter = require('./routes/auth-routes');
 const profileRouter = require('./routes/profile-routes');
 const passportSetup = require('./config/passport-setup');
 const mongoose = require('mongoose');
-const keys = require('./config/keys');
 //const cookieSession = require('cookie-session');
 const session = require('express-session');
 const passport = require('passport');
+const dotenv = require('dotenv');
+dotenv.config();
 
 // Setting the view engine to ejs
 app.set('view engine', 'ejs');
@@ -16,7 +17,7 @@ app.set('view engine', 'ejs');
 
 // Setting up cookie-session
 app.use(session({ 
-    secret: keys.session.cookieKey,
+    secret: process.env.cookieKey,
     resave: false,
     saveUninitialized: false,
       cookie: { maxAge: 24 * 60 * 60 * 1000 } // 24 hours 
@@ -32,7 +33,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // Connecting to MongoDB
-mongoose.connect(keys.mongodb.dbURI)
+mongoose.connect(process.env.dbURI)
     .then(() => {
         console.log('Database connected');
         app.listen(3000, () => {
